@@ -1,0 +1,84 @@
+version: '3.7'
+
+services:
+  # redis-primary:
+  #   container_name: redis-primary
+  #   image: redis:5-alpine
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - redis-primary
+  #   command: [redis-server]
+
+  redis-reader01:
+    container_name: redis-reader01
+    image: redis:5-alpine
+    networks:
+      default:
+        aliases:
+          - redis-reader
+          - redis-reader01
+    command: [redis-server]
+
+  redis-reader02:
+    container_name: redis-reader02
+    image: redis:5-alpine
+    networks:
+      default:
+        aliases:
+          - redis-reader
+          - redis-reader02
+    command: [redis-server]
+
+  web01:
+    container_name: web01
+    image: node:12-alpine
+    volumes:
+      - .:/app
+    ports:
+      - 3001:3000
+    networks:
+      default:
+        aliases:
+          - web
+    depends_on:
+      - redis-reader01
+      - redis-reader02
+    environment:
+      SERVER_NAME: web01
+    working_dir: /app
+    command: [node, server.js]
+
+  # web0:
+  #   container_name: web02
+  #   image: node:12-alpine
+  #   volumes:
+  #     - .:/app
+  #   ports:
+  #     - 3002:3000
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - web
+  #   environment:
+  #     SERVER_NAME: web02
+  #   working_dir: /app
+  #   command: [node, server.js]
+
+  client:
+    container_name: client
+    image: node:12-alpine
+    volumes:
+      - .:/app
+    networks:
+      default:
+        aliases:
+          - client
+    working_dir: /app
+    command: [node, client.js]
+    depends_on:
+      - web01
+
+networks:
+  default:
+    name: 'docker-round-robin-default'

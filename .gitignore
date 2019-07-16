@@ -1,0 +1,15 @@
+/.idea/
+/.vscode/
+
+/vendor/
+/node_modules/
+
+*.d.ts
+*.map
+*.log
+*.swp
+*.lock
+
+._*
+.DS_Store
+Thumbs.db
