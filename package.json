@@ -15,7 +15,7 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^12.6.3",
     "@types/node-fetch": "^2.3.7",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "ioredis": "^4.11.2",
     "morgan": "^1.9.1",
     "node-fetch": "^2.6.0",
